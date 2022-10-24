@@ -1,31 +1,49 @@
-# Version 1.0
+# Version 2.0
 
-import io
+import io, os
 
 class main:
 
+    def __init__(self, fileName, arrangement='', spaceFill=''):
+        self.fileName = fileName
 
-    def create(fileName, arrangement, spaceFill): # Database creation method
+        if arrangement == '': # Check if user tries to load or create database and if file with fileName already exists
+            if os.path.exists(self.fileName):
+                with open(fileName, 'r', encoding='utf-8') as file:
+                    self.arrangement = file.readline() # Needs to be recoded so it can read database if it is a single line
+            else:
+                raise Exception('Trying to create empty database')
+        else:
+            if os.path.exists(self.fileName):
+                raise Exception('Giving create argument/s wilst a file with this name already exists')
+            else:
+                self.arrangement = arrangement
+                with open(self.fileName, 'w', encoding='utf-8') as file:
+                    file.write(len(str(self.arrangement)) + str(self.arrangement) + "{'spaceFill':'" + spaceFill + "'}")
+    
 
-        try: # Tries to create the file. If file already exists, throws exception.
-            file = open(fileName, 'x')
-            file.close()
-        except:
-            raise Exception('File with fileName ' + fileName + ' already exists')
 
-        write = '' # Converts creation parameters to string and writes them to the database file.
-        for key in arrangement:
-            if len(key) > arrangement[key]:
-                raise Exception('Length of column <' + key + '> is larger than the specified size of ' + arrangement[key])
-            write = write + key
-            for i in range(arrangement[key]): # spaceFill writing
-                write = write + spaceFill
-        with open(fileName, 'w', encoding='utf-8') as file:
-            file.write(write)
-        
-        
-    def insert(fileName, toInsert, spaceFill): # Database insertion method
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def insertOld(fileName, toInsert, spaceFill): # Database insertion method
+    
         with open(fileName, 'r', encoding='utf-8') as file: # Reads first line of the database file and converts it back to the creation parameters so checks can be done.
             read = file.readline()
         arrangement = read.split(spaceFill)
