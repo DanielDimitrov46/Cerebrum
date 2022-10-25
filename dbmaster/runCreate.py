@@ -12,5 +12,10 @@ params = {
     'scor' : 4
 }
 
+<<<<<<< Updated upstream
 test = dbmaster.main
 test.create('db.txt', params, '~')
+=======
+f = dbmaster.main
+f.create('db.txt', params, '~')
+>>>>>>> Stashed changes

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Version 1.0
 
 import io
@@ -33,6 +34,49 @@ class main:
         arrangement = dict.fromkeys(arrangement, 0)
         for key in arrangement:
             arrangement[key] = len(read[read.find(key):(len(read)) if (list(arrangement).index(key) == len(arrangement)-1) else (str(read).find(list(arrangement)[list(arrangement).index(key)+1]))])-len(key)
+=======
+# Version 2.0
+# Line 15 needs beauty recoding
+
+import io, os, ast
+
+class main:
+
+    def __init__(self):
+        self.fileName = 'this is a test'
+
+    def load(self, fileName): # Load database
+        self.fileName = fileName
+
+        if os.path.exists(self.fileName):
+                file = io.open(self.fileName, 'r', encoding='utf-8')
+                self.spaceFill = file.read(1)
+
+                num, i = '', ''
+                while True:
+                    i = file.read(1)
+                    if i == '{':
+                        file.seek(file.tell() -1)
+                        break
+                    num += i
+
+                self.arrangement = ast.literal_eval(file.read(int(num)))
+                print(self.arrangement)
+                file.close()  
+        else:
+            raise Exception('No such file exists')
+            
+
+    def create(fileName, arrangement, spaceFill): # Create database
+        if os.path.exists(fileName):
+            raise Exception('Giving create argument/s wilst a file with this name already exists')
+        else:
+            with io.open(fileName, 'w', encoding='utf-8') as file:
+                file.write(spaceFill + str(len(str(arrangement))) + str(arrangement))
+    
+
+    def insert(self, toInsert):
+>>>>>>> Stashed changes
 
         for key in toInsert: # Validates that insert info format is equal to database format
             if key != list(arrangement)[list(toInsert).index(key)]:
