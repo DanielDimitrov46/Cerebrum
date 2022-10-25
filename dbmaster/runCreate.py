@@ -12,5 +12,4 @@ params = {
     'scor' : 4
 }
 
-test = dbmaster.main
-test.create('db.txt', params, '~')
+f = dbmaster.open('db.txt', params, '~')
