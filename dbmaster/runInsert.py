@@ -12,5 +12,6 @@ params = {
     'scor' : '5.31'
 }
 
-test = dbmaster.main
-test.insert('db.txt', params, '~')
+f = dbmaster.main
+f.load('db.txt')
+f.insert(params)

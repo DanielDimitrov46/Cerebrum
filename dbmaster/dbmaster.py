@@ -3,11 +3,20 @@
 
 import io, os, ast
 
-class main:
+class main(object):
 
-    def __init__(self, fileName=''):
-        self.fileName = fileName
+    def __init__(self):
+        self = self
+            
 
+    def create(fileName, arrangement, spaceFill): # Create database
+        if os.path.exists(fileName):
+            raise Exception('Giving create argument/s wilst a file with this name already exists')
+        else:
+            with io.open(fileName, 'w', encoding='utf-8') as file:
+                file.write(spaceFill + str(len(str(arrangement))) + str(arrangement))
+
+        
     def load(self, fileName): # Load database
         self.fileName = fileName
 
@@ -28,14 +37,6 @@ class main:
                 file.close()  
         else:
             raise Exception('No such file exists')
-            
-
-    def create(fileName, arrangement, spaceFill): # Create database
-        if os.path.exists(fileName):
-            raise Exception('Giving create argument/s wilst a file with this name already exists')
-        else:
-            with io.open(fileName, 'w', encoding='utf-8') as file:
-                file.write(spaceFill + str(len(str(arrangement))) + str(arrangement))
     
 
     def insert(self, toInsert):
