@@ -12,5 +12,5 @@ params = {
     'scor' : 4
 }
 
-f = dbmaster.main
+f = dbmaster.main()
 f.create('db.txt', params, '~')

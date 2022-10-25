@@ -5,19 +5,25 @@ import io, os, ast
 
 class main(object):
 
+
+
     def __init__(self):
         self = self
             
 
+
     def create(fileName, arrangement, spaceFill): # Create database
+
         if os.path.exists(fileName):
             raise Exception('Giving create argument/s wilst a file with this name already exists')
         else:
             with io.open(fileName, 'w', encoding='utf-8') as file:
                 file.write(spaceFill + str(len(str(arrangement))) + str(arrangement))
 
+
         
     def load(self, fileName): # Load database
+
         self.fileName = fileName
 
         if os.path.exists(self.fileName):
@@ -33,13 +39,14 @@ class main(object):
                     num += i
 
                 self.arrangement = ast.literal_eval(file.read(int(num)))
-                print(self.arrangement)
                 file.close()  
         else:
             raise Exception('No such file exists')
     
 
+
     def insert(self, toInsert):
+
         for key in toInsert: # Validates that insert info format is equal to database format
             if key != list(self.arrangement)[list(toInsert).index(key)]:
                 raise Exception("Insert format doesn't match database format at <" + key + '>')
