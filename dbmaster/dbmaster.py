@@ -1,9 +1,11 @@
 # Version 2.0
-# Line 15 needs beauty recoding
+# Line 18-24 needs beauty recoding
 
 import io, os, ast
 
-class open:
+class open(object):
+
+
 
     def __init__(self, fileName, arrangement='', spaceFill=''):
         self.fileName = fileName
@@ -35,6 +37,7 @@ class open:
                 with io.open(self.fileName, 'w', encoding='utf-8') as file:
                     file.write(self.spaceFill + str(len(str(self.arrangement))) + str(self.arrangement))
     
+
 
     def insert(self, toInsert):
 
