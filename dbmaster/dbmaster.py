@@ -1,12 +1,12 @@
 # Version 2.0
-# Line 18 needs beauty recoding
+# Lines 18-24 needs beauty recoding
 
 import io, os, ast
 
 class main:
 
-    def __init__(self):
-        self.fileName = 'this is a test'
+    def __init__(self, fileName=''):
+        self.fileName = fileName
 
     def load(self, fileName): # Load database
         self.fileName = fileName
