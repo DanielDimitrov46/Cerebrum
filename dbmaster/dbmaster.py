@@ -2,10 +2,10 @@
 
 # Line 21-27 needs beauty recoding
 
-from audioop import add
 import io, os, ast
 
 class open(object):
+
 
 
 
@@ -30,10 +30,10 @@ class open(object):
                 file.close()
                 
             else:
-                raise Exception('Trying to create empty database')
+                raise Exception('Dbmaster: Trying to create empty database')
         else:
             if os.path.exists(self.fileName):
-                raise Exception('Giving create argument/s wilst a file with this name already exists')
+                raise Exception('Dbmaster: Giving create argument/s wilst a file with this name already exists')
             else: # New database
                 self.arrangement = arrangement
                 self.spaceFill = spaceFill
@@ -44,13 +44,14 @@ class open(object):
     
 
 
+
     def insert(self, toInsert): # Insert to database
 
         for key in toInsert: # Validates that insert argument format is equal to database format
             if key != list(self.arrangement)[list(toInsert).index(key)]:
-                raise Exception("Insert format doesn't match database format at <" + key + '>')
+                raise Exception("Dbmaster: Insert format doesn't match database format at <" + key + '>')
             if len(toInsert[key]) > self.arrangement[key]:
-                raise Exception('Length of <' + key + '> is larger than the allowed size of <' + self.arrangement[key] + '>')
+                raise Exception('Dbmaster: Length of <' + key + '> is larger than the allowed size of <' + self.arrangement[key] + '>')
 
         write = '' # Converts insert dictionary argument into insertable string and inserts into database
         for key in toInsert:
@@ -60,35 +61,52 @@ class open(object):
                 write = write + self.spaceFill
 
         with io.open(self.fileName, 'a', encoding='utf-8') as file:
-            file.write('\n' + write)
-    
+            file.write(write)
+
+
 
 
     def search(self, toSearch): # Search in database
 
+        file = io.open(self.fileName, 'r', encoding='utf-8') # Open file for further use
+
         for key in toSearch: # Check if search argument/s are valid
             if key not in self.arrangement:
-                raise Exception('<' + key + '> is not a valid column in <' + self.fileName + '>')
+                raise Exception('Dbmaster: <' + key + '> is not a valid column in <' + self.fileName + '>')
 
-        entryLength = sum(i for i in self.arrangement.values())
+        entryLength = sum(i for i in self.arrangement.values()) # Get length of one entry
 
-        found = []
+        if ((os.stat(self.fileName).st_size - self.start) / entryLength) % 1 != 0: # Check if database is corrupt by deviding all of the entries's length by the length of a non-corrupt entry
+            raise Exception('Dbmaster: Database is corrupt')
 
-        file = io.open(self.fileName, 'r', encoding='utf-8') 
+
+        found = [] # Searches entries for passed filter and gives matching entries
+        for entry in range(int((os.stat(self.fileName).st_size - self.start) / entryLength)):
+
+            try:
+                for key in toSearch:
+
+                    columnOffset = 0 # Calculate where in each entry it needs to start reading
+                    for i in self.arrangement:
+                        if i == key:
+                            break
+                        columnOffset += self.arrangement[i]
+
+                    file.seek(self.start + (entryLength * entry) + columnOffset) 
+                    if not file.read(self.arrangement[key]).count(toSearch[key]):
+                        raise Exception('genius way of breaking multiple loops')
+            except:
+                continue
+            found.append(entry)
+
         
-        for key in toSearch:
-            columnOffset = 0
-            for i in self.arrangement:
-                if i == key:
-                    break
-                columnOffset += self.arrangement[i]
-
-            for i in range(int((os.stat(self.fileName).st_size - self.start) / entryLength)):
-                file.seek(self.start + (entryLength * i) + columnOffset) 
-                if file.read(self.arrangement[key]).count(toSearch[key]):
-                    file.seek(self.start + (entryLength * i))
-                    print(file.read(entryLength))
-
+        result = dict.fromkeys(self.arrangement, [])
+        for i in found:
+            file.seek(self.start + (entryLength * i))
+            for key in result:
+                read = file.read(self.arrangement[key])
+                toList = list(result[key])
+                toList.append(read[:read.find(self.spaceFill)])
+                result[key] = toList
         
-
-               
+        return result   
