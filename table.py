@@ -12,7 +12,7 @@ class open(object):
                 raise Exception('No such file')
         else:
             if os.path.exists(fileName):
-                print("error")
+                raise Exception('File already exists')
             else:  # New database
                 self.create(fileName, arrangement, spaceFill)
                 self.load(fileName)
@@ -56,7 +56,7 @@ class open(object):
         with io.open(self.fileName, 'a') as file:
             file.write(write)
 
-    def select(self, searchKey):
+    def select(self, searchKey,compareKey=None):
         for key in searchKey:  # Check if search argument/s are valid
             if key not in self.arrangement:
                 raise Exception('<' + key + '> is not a valid column in <' + self.fileName + '>')
@@ -69,14 +69,37 @@ class open(object):
             file.seek(self.start)
             for i in range(500):
                 for key in self.arrangement.keys():
-
+                    element = file.read(self.arrangement[key]).replace("~", "")
                     if key in searchKey:
-                        element = file.read(self.arrangement[key]).replace("~", "")
                         if not element == '':
                             result[key].append(element)
                         else:
                             break
-                    else:
-                        file.seek(file.tell() + self.arrangement[key])
 
+        return result
+
+    def select1(self, searchKey, compareKey=None):
+        for key in searchKey:  # Check if search argument/s are valid
+            if key not in self.arrangement:
+                raise Exception('<' + key + '> is not a valid column in <' + self.fileName + '>')
+
+        for key in compareKey:
+            if key not in self.arrangement:
+                raise Exception('<' + key + '> is not a valid column in <' + self.fileName + '>')
+
+        result = list(list())
+        result.append(searchKey)
+
+        with io.open(self.fileName, 'r') as file:
+            file.seek(self.start)
+            for i in range(500):
+                result.append(list())
+                for key in self.arrangement.keys():
+                    element = file.read(self.arrangement[key]).replace("~", "")
+
+                    if key in searchKey:
+                        if not element == '':
+                            result[i+1].append(element)
+                        else:
+                            break
         return result
