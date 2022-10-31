@@ -2,8 +2,8 @@ import dbmaster, os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 params = {
-    'name': 'Pesho',
-    'family': 'Goshev',
+    'name': 'Dancho',
+    'family': 'Penchev',
     'num': '20601',
     'town': 'Pravets',
     'G' : 'M',
@@ -12,6 +12,5 @@ params = {
     'scor' : '5.31'
 }
 
-f = dbmaster.main()
-f.load('db.txt')
+f = dbmaster.open('db.txt')
 f.insert(params)
