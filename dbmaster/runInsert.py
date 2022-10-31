@@ -2,8 +2,8 @@ import dbmaster, os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 params = {
-    'name': 'Dancho',
-    'family': 'Penchev',
+    'name': 'Pesho',
+    'family': 'Danchov',
     'num': '20601',
     'town': 'Pravets',
     'G' : 'M',

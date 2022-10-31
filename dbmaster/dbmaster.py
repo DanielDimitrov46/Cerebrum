@@ -1,7 +1,3 @@
-# Version 2.0
-
-# Line 21-27 needs beauty recoding
-
 import io, os, ast
 
 
@@ -17,8 +13,8 @@ class open(object):
             if os.path.exists(self.fileName):  # Load database
                 file = io.open(self.fileName, 'r', encoding='utf-8')
                 self.spaceFill = file.read(1)
-
-                num, i = '', ''
+                
+                num, i = '', '' # Gets size of formatting
                 while True:
                     i = file.read(1)
                     if i == '{':
@@ -26,9 +22,8 @@ class open(object):
                         break
                     num += i
 
-                self.arrangement = ast.literal_eval(file.read(int(num)))
+                self.arrangement = ast.literal_eval(file.read(int(num))) # Reads the formatting
                 file.close()
-
             else:
                 raise Exception("Dbmaster: Database needs formatting arguments when creating one")
         else:
@@ -41,8 +36,12 @@ class open(object):
                 self.spaceFill = spaceFill
                 with io.open(self.fileName, 'w', encoding='utf-8') as file:
                     file.write(self.spaceFill + str(len(str(self.arrangement))) + str(self.arrangement))
-
-        self.start = len(self.spaceFill + str(len(str(self.arrangement))) + str(self.arrangement))
+        
+        self.start = len(self.spaceFill + str(len(str(self.arrangement))) + str(self.arrangement)) # Get start of database data (end of database formatting)
+        self.entryLength = sum(i for i in self.arrangement.values()) # Get length of one entry
+        self.numOfEntries = int((os.stat(self.fileName).st_size - self.start) / self.entryLength) # Get number of entries
+        if ((os.stat(self.fileName).st_size - self.start) / self.entryLength) % 1 != 0: # Check if database is corrupt by deviding all of the entries's length by the length of a non-corrupt entry
+            raise Exception('Dbmaster: Database is corrupt')
 
 
 
@@ -66,29 +65,24 @@ class open(object):
 
 
 
-    def search(self, toSearch):  # Search in database
+    def search(self, toSearch): # Search in database
 
-        file = io.open(self.fileName, 'r', encoding='utf-8')  # Open file for further use
+        file = io.open(self.fileName, 'r', encoding='utf-8') # Open file
 
-        for key in toSearch:  # Check if search argument/s are valid
+        for key in toSearch: # Check if search argument/s are valid
             if key not in self.arrangement:
                 raise Exception('Dbmaster: <' + key + '> is not a valid column in <' + self.fileName + '>')
 
-        entryLength = sum(i for i in self.arrangement.values())  # Get length of one entry
-
-        if ((os.stat(self.fileName).st_size - self.start) / entryLength) % 1 != 0:  # Check if database is corrupt by deviding all of the entries's length by the length of a non-corrupt entry
-            raise Exception('Dbmaster: Database is corrupt')
-
-        found = []  # Searches entries for passed filter and gives matching entries
-        for entry in range(int((os.stat(self.fileName).st_size - self.start) / entryLength)):
+        found = [] # Searches entries for passed filter and gives matching entries
+        for entry in range(int((os.stat(self.fileName).st_size - self.start) / self.entryLength)):
             try:
                 for key in toSearch:
-                    columnOffset = 0  # Calculate where in each entry it needs to start reading
+                    columnOffset = 0 # Calculate where in each entry it needs to start reading
                     for i in self.arrangement:
                         if i == key:
                             break
                         columnOffset += self.arrangement[i]
-                    file.seek(self.start + (entryLength * entry) + columnOffset)
+                    file.seek(self.start + (self.entryLength * entry) + columnOffset)
                     if not file.read(self.arrangement[key]).count(toSearch[key]):
                         raise Exception('genius way of breaking multiple loops')
             except:
@@ -97,16 +91,37 @@ class open(object):
 
         result = dict.fromkeys(self.arrangement, [])
         for i in found:
-            file.seek(self.start + (entryLength * i))
+            file.seek(self.start + (self.entryLength * i))
             for key in result:
                 read = file.read(self.arrangement[key])
                 toList = list(result[key])
-                toList.append(read[:read.find(self.spaceFill)])
+                toList.append((read[:read.find(self.spaceFill)]) if read.count(self.spaceFill) else read)
                 result[key] = toList
 
+        file.close()
         return result
 
 
     
+    def get(self, start = 0, end = ''):
+        if end == '': end = self.numOfEntries - 1
+        if start >= self.numOfEntries or start < 0: raise Exception('Dbmaster: Start index is out of bounds')
+        if end >= self.numOfEntries or start < 0: raise Exception('Dbmaster: End index is out of bounds')
+        if end < start: raise Exception('Dbmaster: End index is smaller than start index')
+
+        file = io.open(self.fileName, 'r', encoding='utf-8') # Open file
+        data = dict.fromkeys(self.arrangement, [])
+        for i in range(start, end+1): # For every entry specified in the calling of get()
+            print(i)
+            file.seek(self.start + (self.entryLength * i))
+            for key in data:
+                read = file.read(self.arrangement[key])
+                toList = list(data[key])
+                toList.append((read[:read.find(self.spaceFill)]) if read.count(self.spaceFill) else read)
+                data[key] = toList
+
+        file.close()
+        return data
+
     def columns(self):
         return list(self.arrangement.keys())
