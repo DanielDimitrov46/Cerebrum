@@ -1,7 +1,3 @@
-# Version 2.0
-
-# Line 21-27 needs beauty recoding
-
 import io, os, ast
 
 
@@ -17,8 +13,8 @@ class open(object):
             if os.path.exists(self.fileName):  # Load database
                 file = io.open(self.fileName, 'r', encoding='utf-8')
                 self.spaceFill = file.read(1)
-
-                num, i = '', ''
+                
+                num, i = '', '' # Gets size of formatting
                 while True:
                     i = file.read(1)
                     if i == '{':
@@ -26,9 +22,8 @@ class open(object):
                         break
                     num += i
 
-                self.arrangement = ast.literal_eval(file.read(int(num)))
+                self.arrangement = ast.literal_eval(file.read(int(num))) # Reads the formatting
                 file.close()
-
             else:
                 raise Exception("Dbmaster: Database needs formatting arguments when creating one")
         else:
@@ -41,8 +36,10 @@ class open(object):
                 self.spaceFill = spaceFill
                 with io.open(self.fileName, 'w', encoding='utf-8') as file:
                     file.write(self.spaceFill + str(len(str(self.arrangement))) + str(self.arrangement))
-
+        
         self.start = len(self.spaceFill + str(len(str(self.arrangement))) + str(self.arrangement))
+        self.entryLength = sum(i for i in self.arrangement.values())  # Get length of one entry
+        self.numOfEntries = int((os.stat(self.fileName).st_size - self.start) / self.entryLength) # Get number of entries
 
 
 
@@ -66,38 +63,36 @@ class open(object):
 
 
 
-    def search(self, toSearch):  # Search in database
+    def search(self, toSearch): # Search in database
 
-        file = io.open(self.fileName, 'r', encoding='utf-8')  # Open file for further use
+        file = io.open(self.fileName, 'r', encoding='utf-8') # Open file for further use
 
-        for key in toSearch:  # Check if search argument/s are valid
+        for key in toSearch: # Check if search argument/s are valid
             if key not in self.arrangement:
                 raise Exception('Dbmaster: <' + key + '> is not a valid column in <' + self.fileName + '>')
 
-        entryLength = sum(i for i in self.arrangement.values())  # Get length of one entry
-
-        if ((os.stat(self.fileName).st_size - self.start) / entryLength) % 1 != 0:  # Check if database is corrupt by deviding all of the entries's length by the length of a non-corrupt entry
+        if ((os.stat(self.fileName).st_size - self.start) / self.entryLength) % 1 != 0: # Check if database is corrupt by deviding all of the entries's length by the length of a non-corrupt entry
             raise Exception('Dbmaster: Database is corrupt')
 
-        found = []  # Searches entries for passed filter and gives matching entries
-        for entry in range(int((os.stat(self.fileName).st_size - self.start) / entryLength)):
+        found = [] # Searches entries for passed filter and gives matching entries
+        for entry in range(int((os.stat(self.fileName).st_size - self.start) / self.entryLength)):
             try:
                 for key in toSearch:
-                    columnOffset = 0  # Calculate where in each entry it needs to start reading
+                    columnOffset = 0 # Calculate where in each entry it needs to start reading
                     for i in self.arrangement:
                         if i == key:
                             break
                         columnOffset += self.arrangement[i]
-                    file.seek(self.start + (entryLength * entry) + columnOffset)
+                    file.seek(self.start + (self.entryLength * entry) + columnOffset)
                     if not file.read(self.arrangement[key]).count(toSearch[key]):
                         raise Exception('genius way of breaking multiple loops')
             except:
                 continue
             found.append(entry)
 
-        result = dict.fromkeys(self.arrangement, [])
+        result = dict.fromkeys(self.arrangement, []) # Code needs balance changes
         for i in found:
-            file.seek(self.start + (entryLength * i))
+            file.seek(self.start + (self.entryLength * i))
             for key in result:
                 read = file.read(self.arrangement[key])
                 toList = list(result[key])
@@ -108,5 +103,11 @@ class open(object):
 
 
     
+    def get(self, start, end):
+        if start >= self.numOfEntries or start < 0: raise Exception('Start index is out of bounds')
+
+    
+
+
     def columns(self):
         return list(self.arrangement.keys())
