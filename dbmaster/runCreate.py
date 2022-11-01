@@ -1,6 +1,4 @@
-import dbmaster, os
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
+import dbmaster
 
 params = {
     'name': 15,
@@ -13,4 +11,4 @@ params = {
     'scor': 4
 }
 
-f = dbmaster.open('db', params, '~')
+obj = dbmaster.open('database', params, '~')
