@@ -1,5 +1,5 @@
 import dbmaster, os
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-f = dbmaster.open('db.txt')
+f = dbmaster.open('db')
 print(f.get())

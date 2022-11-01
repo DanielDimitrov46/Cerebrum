@@ -12,5 +12,5 @@ params = {
     'scor' : '5.31'
 }
 
-f = dbmaster.open('db.txt')
+f = dbmaster.open('db')
 f.insert(params)

@@ -1,43 +1,52 @@
 import io, os, ast
 
 
+def listDbs(): # Returns a list of all databases in the current directory
+    Return = []
+    for file in os.listdir():
+        if file.endswith(".dbm"):
+            Return.append(file[:file.find(".dbm")])
+    return Return
+
+
+
 class open(object):
 
 
+    def __init__(self, fileName, arrangement='', spaceFill='~'):
 
-    def __init__(self, fileName, arrangement='', spaceFill=''):
+        self.fileName = fileName + '.dbm'
 
-        self.fileName = fileName
-
-        if arrangement == '':  # Check if user tries to load or create database and if file with fileName already exists
-            if os.path.exists(self.fileName):  # Load database
+        if arrangement == '': # Check if user tries to load or create database and if file with fileName already exists
+            if os.path.exists(self.fileName): # Load database
                 file = io.open(self.fileName, 'r', encoding='utf-8')
                 self.spaceFill = file.read(1)
                 
-                num, i = '', '' # Gets size of formatting
+                self.arrangement, i = '', '' # Gets database formatting in string
                 while True:
                     i = file.read(1)
-                    if i == '{':
-                        file.seek(file.tell() - 1)
+                    self.arrangement += i
+                    if i == '}':
                         break
-                    num += i
+                self.arrangement = ast.literal_eval(self.arrangement) # Converts database to dictionary
 
-                self.arrangement = ast.literal_eval(file.read(int(num))) # Reads the formatting
                 file.close()
             else:
-                raise Exception("Dbmaster: Database needs formatting arguments when creating one")
+                raise Exception("Dbmaster: No such database exists, expecting create arguments")
         else:
             if os.path.exists(self.fileName):
                 raise Exception('Dbmaster: Giving formatting arguments wilst a file with this name already exists')
+
             else:  # New database
-                if self.fileName == '':
-                    raise Exception("Dbmaster: Name can't be empty")
-                self.arrangement = arrangement
+                if self.fileName == '': raise Exception("Dbmaster: Name can't be empty")
+                if len(spaceFill) > 1: raise Exception("Dbmaster: Fill character argument must be one byte")
+
+                self.arrangement = dict(arrangement)
                 self.spaceFill = spaceFill
                 with io.open(self.fileName, 'w', encoding='utf-8') as file:
-                    file.write(self.spaceFill + str(len(str(self.arrangement))) + str(self.arrangement))
+                    file.write(self.spaceFill + str(self.arrangement))
         
-        self.start = len(self.spaceFill + str(len(str(self.arrangement))) + str(self.arrangement)) # Get start of database data (end of database formatting)
+        self.start = len(self.spaceFill + str(self.arrangement)) # Get start of database data (end of database formatting)
         self.entryLength = sum(i for i in self.arrangement.values()) # Get length of one entry
         self.numOfEntries = int((os.stat(self.fileName).st_size - self.start) / self.entryLength) # Get number of entries
         if ((os.stat(self.fileName).st_size - self.start) / self.entryLength) % 1 != 0: # Check if database is corrupt by deviding all of the entries's length by the length of a non-corrupt entry
@@ -57,10 +66,10 @@ class open(object):
         for key in toInsert:
 
             write = write + toInsert[key]
-            for i in range(self.arrangement[key] - len(toInsert[key])):  # spaceFill writing
+            for i in range(self.arrangement[key] - len(toInsert[key])): # spaceFill writing
                 write = write + self.spaceFill
 
-        with io.open(self.fileName, 'a', encoding='utf-8') as file:
+        with io.open(self.fileName, 'a', encoding='utf-8') as file: # Write the information
             file.write(write)
 
 
@@ -99,7 +108,7 @@ class open(object):
                 result[key] = toList
 
         file.close()
-        return result
+        return found, result
 
 
     
@@ -125,5 +134,12 @@ class open(object):
 
 
 
-    def columns(self):
+    def columns(self): # Returns a list of the columns
         return list(self.arrangement.keys())
+
+
+
+#    def delete(self, index): # Delete an entry
+        file = io.open(self.fileName, 'r', encoding='utf-8') # Open file
+        file.seek(self.start + (self.entryLength * index))
+        print("".join('~' for i in range(self.entryLength)))

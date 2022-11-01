@@ -5,5 +5,5 @@ params = {
     'town': 'Pravets'
 }
 
-f = dbmaster.open('db.txt')
+f = dbmaster.open('db')
 print(f.search(params))
