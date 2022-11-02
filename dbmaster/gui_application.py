@@ -1,5 +1,7 @@
 import tkinter as tk
 from runCreate import create
+from runSearch import search
+import glob
 
 # creating a GUI window
 window = tk.Tk()
@@ -24,32 +26,10 @@ l1.place(relx=0.5, rely=0.10, anchor='center')
 # function to options
 
 def create_new_database():
-    def delete_text():# delete widgets after creation or after cancelation
-        button1.destroy()
-        entry1.destroy()
-        button2.destroy()
-
-    def real_create():# logic for creating a database
-        label2 = tk.Label(window, text='')
-        label2.config(font=('helvetica', 10))
-        canvas1.create_window(200, 300, window=label2)
-        real_create = create(entry1.get())
-        label2.config(text=real_create)
-        label2.after(2000, label2.destroy)
-        delete_text()
-    entry1 = tk.Entry(window)
-    canvas1.create_window(200, 140, window=entry1)
-    button1 = tk.Button(text='Create the new database', command=real_create, bg='brown', fg='white',font=('helvetica', 9, 'bold'))
-    canvas1.create_window(200, 180, window=button1)
-    button2 = tk.Button(text='Cancel crating a new DB', command=delete_text, bg='brown', fg='white',
-                        font=('helvetica', 9, 'bold'))
-    canvas1.create_window(200, 220, window=button2)
-def load_databases():  # load all database button to do the logic of loading data
     def delete_text():  # delete widgets after creation or after cancelation
         button1.destroy()
         entry1.destroy()
         button2.destroy()
-
     def real_create():  # logic for creating a database
         label2 = tk.Label(window, text='')
         label2.config(font=('helvetica', 10))
@@ -69,9 +49,39 @@ def load_databases():  # load all database button to do the logic of loading dat
     canvas1.create_window(200, 220, window=button2)
 
 
+def load_databases():  # load all database button to do the logic of loading data
+    def delete_text():  # delete widgets after creation or after cancelation
+        button1.destroy()
+        columns.destroy()
+        parameter.destroy()
+        button2.destroy()
+        name_of_database.destroy()
+
+    def search_function():  # logic for `searching in database
+        label2 = tk.Label(window, text='')
+        label2.config(font=('helvetica', 10))
+        canvas1.create_window(600, 400, window=label2)
+        real_search_by_columns_and_parameters = search(columns.get(), parameter.get(), name_of_database.get())
+        label2.config(text=real_search_by_columns_and_parameters)
+        label2.after(2000, label2.destroy)
+        delete_text()
+
+    name_of_database = tk.Entry(window)
+    canvas1.create_window(100, 140, window=name_of_database)
+    columns = tk.Entry(window)
+    canvas1.create_window(200, 140, window=columns)
+    parameter = tk.Entry(window)
+    canvas1.create_window(300, 140, window=parameter)
+    button1 = tk.Button(text='Search', command=search_function, bg='brown', fg='white',
+                        font=('helvetica', 9, 'bold'))
+    canvas1.create_window(200, 180, window=button1)
+    button2 = tk.Button(text='Cancel searching', command=delete_text, bg='brown', fg='white',
+                        font=('helvetica', 9, 'bold'))
+    canvas1.create_window(200, 220, window=button2)
+
+
 def drop_database():  # delete a database button
     pass
-
 
 
 def exit_from_application():  # exit_from_application
