@@ -1,3 +1,4 @@
+import os
 import tkinter as tk
 from runCreate import create
 from runSearch import search
@@ -77,23 +78,27 @@ def load_databases():  # load all database button to do the logic of loading dat
     canvas1.create_window(200, 180, window=button1)
     button2 = tk.Button(text='Cancel searching', command=delete_text, bg='brown', fg='white',
                         font=('helvetica', 9, 'bold'))
-    canvas1.create_window(200, 220, window=button2)
+    
 
 
 def drop_database():  # delete a database button
-    pass
+    entry1 = tk.Entry(window)
+    canvas1.create_window(825, 280, window=entry1)
+    def real_delete():    
+        database_name = entry1.get()
+        os.remove(f"{database_name}.txt")
 
+    delete_button = tk.Button(text='Delete Databse', command=real_delete).place(relx=0.55, rely=0.4,anchor='center')
 
 def exit_from_application():  # exit_from_application
     window.destroy()
-
 
 # making buttons
 btn = tk.Button(window, text='Create a new database', bd='3', command=create_new_database, activebackground="red")
 btn.place(relx=0.35, rely=0.20, anchor='center')
 btn1 = tk.Button(window, text='Show all databases', bd='3', command=load_databases, activebackground="green")
 btn1.place(relx=0.45, rely=0.20, anchor='center')
-btn2 = tk.Button(window, text='Drop a database', bd='3', command=window.destroy, activebackground="blue")
+btn2 = tk.Button(window, text='Drop a database', bd='3', command=drop_database, activebackground="blue")
 btn2.place(relx=0.55, rely=0.20, anchor='center')
 btn3 = tk.Button(window, text='Exit from the application!', bd='3', command=exit_from_application,
                  activebackground="yellow")
