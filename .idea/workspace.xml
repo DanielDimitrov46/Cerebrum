@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e476807-52ea-4d00-817a-fd63cc50d6b9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/dbmaster/neshto.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbmaster/db.txt" beforeDir="false" afterPath="$PROJECT_DIR$/dbmaster/db.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbmaster/gui_application.py" beforeDir="false" afterPath="$PROJECT_DIR$/dbmaster/gui_application.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dbmaster/runInsert.py" beforeDir="false" afterPath="$PROJECT_DIR$/dbmaster/runInsert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbmaster/runSearch.py" beforeDir="false" afterPath="$PROJECT_DIR$/dbmaster/runSearch.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,19 +27,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Softuni software engineering/SoftUni/Python Fundamentals&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/danid/Downloads/cat-widget.zip",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\UKTC PROGRAMMING\Data base Hadjichonev\Cerebrum" />
@@ -216,7 +213,7 @@
       <workItem from="1667293455374" duration="5649000" />
       <workItem from="1667334795109" duration="295000" />
       <workItem from="1667335104407" duration="331000" />
-      <workItem from="1667379747979" duration="4815000" />
+      <workItem from="1667379747979" duration="6692000" />
     </task>
     <servers />
   </component>
@@ -249,7 +246,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Cerebrum$gui_application__1_.coverage" NAME="gui_application (1) Coverage Results" MODIFIED="1667385535663" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
+    <SUITE FILE_PATH="coverage/Cerebrum$gui_application__1_.coverage" NAME="gui_application (1) Coverage Results" MODIFIED="1667396705928" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
     <SUITE FILE_PATH="coverage/Cerebrum$runCreate.coverage" NAME="runCreate Coverage Results" MODIFIED="1667152138817" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
     <SUITE FILE_PATH="coverage/Cerebrum$runInsert.coverage" NAME="runInsert Coverage Results" MODIFIED="1667384377879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
     <SUITE FILE_PATH="coverage/Cerebrum$table.coverage" NAME="table Coverage Results" MODIFIED="1666789494446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
