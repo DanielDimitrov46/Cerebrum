@@ -1,5 +1,4 @@
-import dbmaster, os
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+import dbmaster
 
 name = input("Enter a database name:")
 params = {
@@ -12,6 +11,7 @@ params = {
     'birthDate' : input("Enter a birth date:"),
     'scor' : input("Enter average scor")
 }
+
 
 f = dbmaster.open(f'{name}.txt')
 f.insert(params)
