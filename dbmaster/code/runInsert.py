@@ -1,8 +1,8 @@
 import dbmaster
 
 params = {
-    'name': 'Goshko',
-    'family': 'Petrov',
+    'name': 'Barbaron',
+    'family': 'Geiski',
     'num': '20105',
     'town': 'Mezdra',
     'G': 'M',

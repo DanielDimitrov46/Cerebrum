@@ -1,4 +1,4 @@
 import dbmaster
 
 obj = dbmaster.open('database')
-obj.delete(1)
+obj.delete(0)

@@ -29,7 +29,6 @@ class open(object):
                         self.arrangement += i
                         if i == '}':
                             break
-                        del i
                     self.arrangement = ast.literal_eval(self.arrangement) # Parses it to dictionary
                 else: raise Exception("Dbmaster: Meta file with such name doesn't exit")
             else: raise Exception("Dbmaster: Data file with such name doesn't exit")
@@ -68,11 +67,25 @@ class open(object):
             write = write + toInsert[key]
             for _ in range(self.arrangement[key] - len(toInsert[key])): # spaceFill writing
                 write = write + self.spaceFill
+        
+        self.fileMeta.seek(self.deletedStart)
+        deletedList = ""
+        while True: # Gets deleted entries as string
+            i = self.fileMeta.read(1)
+            deletedList += i
+            if i == ']':
+                break
+        deletedList = ast.literal_eval(deletedList) # Parses it to a list
 
-        self.fileData.seek(0, 2)
+        if deletedList: self.fileData.seek(deletedList[0] * self.entryLength)
+        else: self.fileData.seek(0, 2); self.numOfEntries += 1
         self.fileData.write(write) # Write the information
 
-        self.numOfEntries += 1
+        deletedList.pop(0)
+        self.fileMeta.seek(self.deletedStart) 
+        self.fileMeta.write(str(deletedList)) # Update the list of deleted entries
+
+        
 
 
 
@@ -145,7 +158,6 @@ class open(object):
             deletedList += i
             if i == ']':
                 break
-            del i
         deletedList = ast.literal_eval(deletedList) # Parses it to a list
 
         if index in deletedList: raise Exception("Dbmaster: Entry already deleted")
@@ -161,6 +173,7 @@ class open(object):
 
 #
 # Implement __del__ or whatever it is so your code can work with <with>
+# Also code so it makes sure that when insert() you must have all keys in the parameters
 #
 
 
