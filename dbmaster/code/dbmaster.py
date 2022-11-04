@@ -1,7 +1,7 @@
 import io, os, ast
 
 
-def listDbs(): # Returns a list of all databases in the current directory
+def listDbs() -> list: # Returns a list of all databases in the current directory
     Return = []
     for file in os.listdir():
         if file.endswith(".dbm"):
@@ -13,48 +13,50 @@ def listDbs(): # Returns a list of all databases in the current directory
 class open(object):
 
 
-    def __init__(self, fileName, arrangement='', spaceFill='~'):
 
-        self.fileName = fileName + '.dbm'
+    def __init__(self, fileName:str, arrangement:dict='', spaceFill:chr='~'):
+
+        
 
         if arrangement == '': # Check if user tries to load or create database and if file with fileName already exists
-            if os.path.exists(self.fileName): # Load database
-                file = io.open(self.fileName, 'r', encoding='utf-8')
-                self.spaceFill = file.read(1)
-                
-                self.arrangement, i = '', '' # Gets database formatting in string
-                while True:
-                    i = file.read(1)
-                    self.arrangement += i
-                    if i == '}':
-                        break
-                self.arrangement = ast.literal_eval(self.arrangement) # Converts database to dictionary
 
-                file.close()
-            else:
-                raise Exception("Dbmaster: No such database exists, expecting create arguments")
+            if os.path.exists(fileName + ".dbmd"): # If data file exists
+                if os.path.exists(fileName + ".dbmm"): # If meta file exists
+                    self.fileData = io.open(fileName + ".dbmd", "r+", encoding='utf-8') # Open data file
+                    self.fileMeta = io.open(fileName + ".dbmm", "r+", encoding='utf-8') # Open meta file
+                    self.spaceFill = self.fileMeta.read(1)
+                    self.arrangement, i = '', '' 
+                    while True: # Gets database formatting in string
+                        i = self.fileMeta.read(1)
+                        self.arrangement += i
+                        if i == '}':
+                            break
+                    self.arrangement = ast.literal_eval(self.arrangement) # Converts database to dictionary
+                else: raise Exception("Dbmaster: Meta file with such name doesn't exit")
+            else: raise Exception("Dbmaster: Data file with such name doesn't exit")
+
         else:
-            if os.path.exists(self.fileName):
-                raise Exception('Dbmaster: Giving formatting arguments wilst a file with this name already exists')
+            if os.path.exists(fileName + ".dbmd") or os.path.exists(fileName + ".dbmm"):
+                raise Exception('Dbmaster: Giving formatting arguments wilst a file/s with this name already exists')
 
             else:  # New database
-                if self.fileName == '': raise Exception("Dbmaster: Name can't be empty")
-                if len(spaceFill) > 1: raise Exception("Dbmaster: Fill character argument must be one byte")
-
-                self.arrangement = dict(arrangement)
+                if fileName == '': raise Exception("Dbmaster: Name can't be empty")
+                try: self.arrangement = dict(arrangement)
+                except: raise Exception("Dbmaster: Invalid create arguments")
                 self.spaceFill = spaceFill
-                with io.open(self.fileName, 'w', encoding='utf-8') as file:
-                    file.write(self.spaceFill + str(self.arrangement))
+                self.fileData = io.open(fileName + ".dbmd", "w+", encoding='utf-8') # Create data file
+                self.fileMeta = io.open(fileName + ".dbmm", "w+", encoding='utf-8') # Create meta file
+                self.fileMeta.write(self.spaceFill + str(self.arrangement)) # Write database formatting to meta file
         
         self.start = len(self.spaceFill + str(self.arrangement)) # Get start of database data (end of database formatting)
         self.entryLength = sum(i for i in self.arrangement.values()) # Get length of one entry
-        self.numOfEntries = int((os.stat(self.fileName).st_size - self.start) / self.entryLength) # Get number of entries
-        if ((os.stat(self.fileName).st_size - self.start) / self.entryLength) % 1 != 0: # Check if database is corrupt by deviding all of the entries's length by the length of a non-corrupt entry
-            raise Exception('Dbmaster: Database is corrupt')
+        self.numOfEntries = int((os.stat(fileName + ".dbmd").st_size - self.start) / self.entryLength) # Get number of entries
+        if ((os.stat(fileName + ".dbmd").st_size - self.start) / self.entryLength) % 1 != 0: # Check if database is corrupt by deviding all of the entries's length by the length of a non-corrupt entry
+            raise Exception('Dbmaster: Data is corrupt')
 
 
 
-    def insert(self, toInsert):  # Insert to database
+    def insert(self, toInsert:dict):  # Insert to database
 
         for key in toInsert:  # Validates that insert argument format is equal to database format
             if key != list(self.arrangement)[list(toInsert).index(key)]:
@@ -74,7 +76,7 @@ class open(object):
 
 
 
-    def search(self, toSearch): # Search in database
+    def search(self, toSearch:dict) -> tuple: # Search in database
 
         file = io.open(self.fileName, 'r', encoding='utf-8') # Open file
 
@@ -112,7 +114,7 @@ class open(object):
 
 
     
-    def get(self, start = 0, end = ''):
+    def get(self, start:int = 0, end:int = '') -> list:
         if end == '': end = self.numOfEntries - 1
         if start >= self.numOfEntries or start < 0: raise Exception('Dbmaster: Start index is out of bounds')
         if end >= self.numOfEntries or start < 0: raise Exception('Dbmaster: End index is out of bounds')
@@ -134,7 +136,7 @@ class open(object):
 
 
 
-    def columns(self): # Returns a list of the columns
+    def columns(self) -> list: # Returns a list of the columns
         return list(self.arrangement.keys())
 
 
@@ -143,3 +145,10 @@ class open(object):
         file = io.open(self.fileName, 'r', encoding='utf-8') # Open file
         file.seek(self.start + (self.entryLength * index))
         print("".join('~' for i in range(self.entryLength)))
+        
+
+
+    def close(self):
+        self.fileData.close()
+        self.fileMeta.close()
+        del self
