@@ -83,8 +83,8 @@ class open(object):
             if key not in self.arrangement:
                 raise Exception('Dbmaster: <' + key + '> is not a valid column in <' + self.fileName + '>')
 
-        found = [] # Searches entries for passed filter and gives matching entries
-        for entry in range(self.numOfEntries):
+        found = []
+        for entry in range(self.numOfEntries): # Searches entries for passed filter and gives matching entries
             try:
                 for key in toSearch:
                     columnOffset = 0 # Calculate where in each entry it needs to start reading
@@ -139,7 +139,7 @@ class open(object):
 
 
 
-    def delete(self, index): # Delete an entry
+    def delete(self, index:int): # Delete an entry
         if index >= self.numOfEntries: raise Exception("Dbmaster: Index out of range whilst deleting entry")
 
         deletedList = self.getDeletedList() # Get the list of deleted entries from meta file
@@ -147,14 +147,31 @@ class open(object):
         if index in deletedList: raise Exception("Dbmaster: Entry already deleted")
 
         self.fileData.seek(self.entryLength * index) # Seek to correct entry
-        self.fileData.write("".join('~' for i in range(self.entryLength))) # Do the deletion
+        self.fileData.write("".join('~' for _ in range(self.entryLength))) # Do the deletion
 
         deletedList.append(index) # Append deleted entry to deletedList
         self.updateDeletedList(deletedList) # Write deletedList to meta file
 
 
+    
+    def update(self, index:int, params:dict): # Update an entry
+        for key in params:
+            if key not in self.arrangement.keys(): raise Exception("Dbmaster: Column <" + key + "> is not a valid column in this database")
+        if index in self.getDeletedList(): raise Exception("Dbmaster: Cannot update deleted entry")
 
-    def getDeletedList(self):
+        for key in params:
+            columnOffset = 0 # Calculate where in each entry it needs to start reading
+            for i in self.arrangement:
+                if i == key:
+                    break
+                columnOffset += self.arrangement[i]
+            self.fileData.seek(self.entryLength * index + columnOffset) # Seek to the correct position
+            self.fileData.write(params[key].join('~' for _ in range(self.entryLength)))
+
+
+
+
+    def getDeletedList(self) -> list:
         self.fileMeta.seek(self.deletedStart)
         deletedList = ""
         while True: # Gets deleted entries as string
@@ -167,7 +184,7 @@ class open(object):
 
 
 
-    def updateDeletedList(self, deletedList):
+    def updateDeletedList(self, deletedList:list):
         self.fileMeta.seek(self.deletedStart) 
         self.fileMeta.write(str(deletedList)) # Update the list of deleted entries
 
@@ -187,3 +204,7 @@ class open(object):
 
     def __exit__(self, type, value, traceback):
         self.close()
+
+
+
+# Rewrite insert() so parameters don't need to be in a sorted manner
