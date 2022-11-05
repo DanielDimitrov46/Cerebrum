@@ -1,17 +1,16 @@
 import io, os, ast
 
 
-def listDbs() -> list: # Returns a list of all databases in the current directory
-    Return = []
-    for file in os.listdir():
-        if file.endswith(".dbm"):
-            Return.append(file[:file.find(".dbm")])
-    return Return
+
+def getDbs(): # Returns a list of all databases in the current directory
+    Return = list(value[:value.find(".dbmd" if value.endswith(".dbmd") else ".dbmm")] for value in os.listdir() if value.endswith(".dbmd") or value.endswith(".dbmm"))
+    Return = set(value for value in Return if Return.count(value) == 2)
+    return Return   
 
 
 
 class open(object):
-
+        
 
 
     def __init__(self, fileName:str, arrangement:dict='', spaceFill:chr='~'):
@@ -57,37 +56,26 @@ class open(object):
     def insert(self, toInsert:dict): # Insert to database
 
         for key in toInsert: # Validates that insert argument format is equal to database format
-            if key != list(self.arrangement)[list(toInsert).index(key)]:
-                raise Exception("Dbmaster: Insert format doesn't match database format at <" + key + '>')
-            if len(toInsert[key]) > self.arrangement[key]:
-                raise Exception('Dbmaster: Length of <' + key + '> is larger than the allowed size of <' + self.arrangement[key] + '>')
+            if key != list(self.arrangement)[list(toInsert).index(key)]: raise Exception("Dbmaster: Insert format doesn't match database format at <" + key + '>')
+            if len(toInsert[key]) > self.arrangement[key]: raise Exception('Dbmaster: Length of <' + key + '> is larger than the allowed size of <' + self.arrangement[key] + '>')
+        if toInsert.keys() != self.arrangement.keys(): raise Exception("Dbmaster: Insert format doesn't match database format")
 
         write = ''
         for key in toInsert: # Converts insert dictionary argument into insertable string and inserts into database
             write = write + toInsert[key]
             for _ in range(self.arrangement[key] - len(toInsert[key])): # spaceFill writing
                 write = write + self.spaceFill
-        
-        self.fileMeta.seek(self.deletedStart)
-        deletedList = ""
-        while True: # Gets deleted entries as string
-            i = self.fileMeta.read(1)
-            deletedList += i
-            if i == ']':
-                break
-        deletedList = ast.literal_eval(deletedList) # Parses it to a list
 
-        if deletedList: self.fileData.seek(deletedList[0] * self.entryLength)
-        else: self.fileData.seek(0, 2); self.numOfEntries += 1
+        deletedList = self.getDeletedList()
+        if deletedList: # If there is a deleted entry it can replace
+            self.fileData.seek(deletedList[0] * self.entryLength)
+            self.updateDeletedList(deletedList.pop(0))
+        else: 
+            self.fileData.seek(0, 2)
+            self.numOfEntries += 1
         self.fileData.write(write) # Write the information
 
-        deletedList.pop(0)
-        self.fileMeta.seek(self.deletedStart) 
-        self.fileMeta.write(str(deletedList)) # Update the list of deleted entries
-
         
-
-
 
     def search(self, toSearch:dict) -> tuple: # Search in database
 
@@ -127,19 +115,22 @@ class open(object):
     def get(self, start:int = 0, end:int = '') -> dict:
         if end == '': end = self.numOfEntries - 1
         if start >= self.numOfEntries or start < 0: raise Exception('Dbmaster: Start index is out of bounds')
-        if end >= self.numOfEntries or start < 0: raise Exception('Dbmaster: End index is out of bounds')
+        if end < 0: raise Exception('Dbmaster: End index is out of bounds')
+        if end >= self.numOfEntries: end = self.numOfEntries - 1
         if end < start: raise Exception('Dbmaster: End index is smaller than start index')
 
         data = dict.fromkeys(self.arrangement, [])
+        indexi = []
         for i in range(start, end+1): # For every entry specified in the calling of get()
+            if i in self.getDeletedList(): continue # Don't include deleted entries
             self.fileData.seek(self.entryLength * i)
             for key in data:
                 read = self.fileData.read(self.arrangement[key])
                 toList = list(data[key])
                 toList.append((read[:read.find(self.spaceFill)]) if read.count(self.spaceFill) else read)
                 data[key] = toList
-
-        return data
+            indexi.append(i)
+        return indexi, data
 
 
 
@@ -151,6 +142,19 @@ class open(object):
     def delete(self, index): # Delete an entry
         if index >= self.numOfEntries: raise Exception("Dbmaster: Index out of range whilst deleting entry")
 
+        deletedList = self.getDeletedList() # Get the list of deleted entries from meta file
+
+        if index in deletedList: raise Exception("Dbmaster: Entry already deleted")
+
+        self.fileData.seek(self.entryLength * index) # Seek to correct entry
+        self.fileData.write("".join('~' for i in range(self.entryLength))) # Do the deletion
+
+        deletedList.append(index) # Append deleted entry to deletedList
+        self.updateDeletedList(deletedList) # Write deletedList to meta file
+
+
+
+    def getDeletedList(self):
         self.fileMeta.seek(self.deletedStart)
         deletedList = ""
         while True: # Gets deleted entries as string
@@ -159,22 +163,13 @@ class open(object):
             if i == ']':
                 break
         deletedList = ast.literal_eval(deletedList) # Parses it to a list
+        return deletedList
 
-        if index in deletedList: raise Exception("Dbmaster: Entry already deleted")
 
-        self.fileData.seek(self.entryLength * index) # Seek to correct entry
-        self.fileData.write("".join('~' for i in range(self.entryLength))) # Do the deletion
 
-        deletedList.append(index)
+    def updateDeletedList(self, deletedList):
         self.fileMeta.seek(self.deletedStart) 
         self.fileMeta.write(str(deletedList)) # Update the list of deleted entries
-
-
-
-#
-# Implement __del__ or whatever it is so your code can work with <with>
-# Also code so it makes sure that when insert() you must have all keys in the parameters
-#
 
 
 
@@ -182,3 +177,13 @@ class open(object):
         self.fileData.close()
         self.fileMeta.close()
         del self
+
+
+
+    def __enter__(self):
+        return self
+
+
+
+    def __exit__(self, type, value, traceback):
+        self.close()

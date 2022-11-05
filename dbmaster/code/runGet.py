@@ -1,4 +1,4 @@
 import dbmaster
 
-obj = dbmaster.open('database')
-print(obj.get())
+with dbmaster.open('database') as obj:
+    print(obj.get())
