@@ -1,18 +1,12 @@
 import io, os, ast
 
-
-
 def getDbs(): # Returns a list of all databases in the current directory
     Return = list(value[:value.find(".dbmd" if value.endswith(".dbmd") else ".dbmm")] for value in os.listdir() if value.endswith(".dbmd") or value.endswith(".dbmm"))
     Return = set(value for value in Return if Return.count(value) == 2)
     return Return   
 
-
-
 class open(object):
         
-
-
     def __init__(self, fileName:str, arrangement:dict='', spaceFill:chr='~'):
 
         if arrangement == '': # Check if user tries to load or create database and if file with fileName already exists
@@ -51,20 +45,17 @@ class open(object):
             raise Exception('Dbmaster: Data is corrupt')
         self.deletedStart = len(self.spaceFill + str(self.arrangement))
 
-
-
     def insert(self, toInsert:dict): # Insert to database
 
-        for key in toInsert: # Validates that insert argument format is equal to database format
-            if key != list(self.arrangement)[list(toInsert).index(key)]: raise Exception("Dbmaster: Insert format doesn't match database format at <" + key + '>')
-            if len(toInsert[key]) > self.arrangement[key]: raise Exception('Dbmaster: Length of <' + key + '> is larger than the allowed size of <' + self.arrangement[key] + '>')
-        if toInsert.keys() != self.arrangement.keys(): raise Exception("Dbmaster: Insert format doesn't match database format")
+        for key in toInsert: # Arguments checks
+            if key not in self.arrangement.keys(): raise Exception("Dbmaster: Column <" + key + "> is not a valid column in this database")
+            if len(toInsert[key]) > self.arrangement[key]: raise Exception('Dbmaster: Length of <' + key + '> is larger than the allowed size of <' + str(self.arrangement[key]) + '>')
+        for key in self.arrangement:
+            if key not in toInsert: raise Exception("Dbmaster: Must include all columns() while inserting")
 
         write = ''
         for key in toInsert: # Converts insert dictionary argument into insertable string and inserts into database
-            write = write + toInsert[key]
-            for _ in range(self.arrangement[key] - len(toInsert[key])): # spaceFill writing
-                write = write + self.spaceFill
+            write += toInsert[key] + ("".join('~' for _ in range(self.arrangement[key]-len(toInsert[key]))))
 
         deletedList = self.getDeletedList()
         if deletedList: # If there is a deleted entry it can replace
@@ -73,9 +64,8 @@ class open(object):
         else: 
             self.fileData.seek(0, 2)
             self.numOfEntries += 1
-        self.fileData.write(write) # Write the information
 
-        
+        self.fileData.write(write) # Write the information
 
     def search(self, toSearch:dict) -> tuple: # Search in database
 
@@ -109,8 +99,6 @@ class open(object):
                 result[key] = toList
 
         return found, result
-
-
     
     def get(self, start:int = 0, end:int = '') -> dict:
         if end == '': end = self.numOfEntries - 1
@@ -132,12 +120,8 @@ class open(object):
             indexi.append(i)
         return indexi, data
 
-
-
     def columns(self) -> list: # Returns a list of the columns
         return list(self.arrangement.keys())
-
-
 
     def delete(self, index:int): # Delete an entry
         if index >= self.numOfEntries: raise Exception("Dbmaster: Index out of range whilst deleting entry")
@@ -151,25 +135,24 @@ class open(object):
 
         deletedList.append(index) # Append deleted entry to deletedList
         self.updateDeletedList(deletedList) # Write deletedList to meta file
-
-
-    
+ 
     def update(self, index:int, params:dict): # Update an entry
-        for key in params:
+
+        for key in params: # Arguments checks
             if key not in self.arrangement.keys(): raise Exception("Dbmaster: Column <" + key + "> is not a valid column in this database")
+            if len(params[key]) > self.arrangement[key]: raise Exception('Dbmaster: Length of <' + key + '> is larger than the allowed size of <' + str(self.arrangement[key]) + '>')
         if index in self.getDeletedList(): raise Exception("Dbmaster: Cannot update deleted entry")
+        if index < 0 or  index >= self.numOfEntries: raise Exception("Dbmaster: Index out of bounds")
 
         for key in params:
+            if len(key) > self.arrangement[key]: raise Exception('Dbmaster: Length of <' + key + '> is larger than the allowed size of <' + str(self.arrangement[key]) + '>')
             columnOffset = 0 # Calculate where in each entry it needs to start reading
             for i in self.arrangement:
                 if i == key:
                     break
                 columnOffset += self.arrangement[i]
             self.fileData.seek(self.entryLength * index + columnOffset) # Seek to the correct position
-            self.fileData.write(params[key].join('~' for _ in range(self.entryLength)))
-
-
-
+            self.fileData.write(params[key] + ("".join('~' for _ in range(self.arrangement[key]-len(params[key])))))
 
     def getDeletedList(self) -> list:
         self.fileMeta.seek(self.deletedStart)
@@ -182,29 +165,17 @@ class open(object):
         deletedList = ast.literal_eval(deletedList) # Parses it to a list
         return deletedList
 
-
-
     def updateDeletedList(self, deletedList:list):
         self.fileMeta.seek(self.deletedStart) 
         self.fileMeta.write(str(deletedList)) # Update the list of deleted entries
-
-
 
     def close(self):
         self.fileData.close()
         self.fileMeta.close()
         del self
 
-
-
     def __enter__(self):
         return self
 
-
-
     def __exit__(self, type, value, traceback):
         self.close()
-
-
-
-# Rewrite insert() so parameters don't need to be in a sorted manner
