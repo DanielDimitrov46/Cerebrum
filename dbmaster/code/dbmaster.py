@@ -100,7 +100,7 @@ class open(object):
 
         return found, result
     
-    def get(self, start:int = 0, end:int = '') -> dict:
+    def get(self, start:int = 0, end:int = '') -> dict: # Get specified entries between start and end
         if end == '': end = self.numOfEntries - 1
         if start >= self.numOfEntries or start < 0: raise Exception('Dbmaster: Start index is out of bounds')
         if end < 0: raise Exception('Dbmaster: End index is out of bounds')
@@ -120,7 +120,7 @@ class open(object):
             indexi.append(i)
         return indexi, data
 
-    def columns(self) -> list: # Returns a list of the columns
+    def columns(self) -> list: # Returns a list of the columns names
         return list(self.arrangement.keys())
 
     def delete(self, index:int): # Delete an entry
@@ -169,13 +169,13 @@ class open(object):
         self.fileMeta.seek(self.deletedStart) 
         self.fileMeta.write(str(deletedList)) # Update the list of deleted entries
 
-    def close(self):
+    def close(self): # Should close everything needed to be closed
         self.fileData.close()
         self.fileMeta.close()
         del self
 
-    def __enter__(self):
+    def __enter__(self): # Support for "with" expression
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, type, value, traceback): # Support for "with" expression
         self.close()
