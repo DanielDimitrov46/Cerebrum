@@ -179,6 +179,3 @@ class open(object):
 
     def __exit__(self, type, value, traceback): # Support for "with" expression
         self.close()
-
-
-
