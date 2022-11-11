@@ -1,8 +1,9 @@
-import io, os, ast
+import io, os, sys, ast
+os.chdir(os.path.dirname(os.path.dirname(__file__))) # Optional. Sets directory to be a folder one up
 
-def getDbs(): # Returns a list of all databases in the current directory
+def getDbs() -> list: # Returns a list of all databases in the current directory
     Return = list(value[:value.find(".dbmd" if value.endswith(".dbmd") else ".dbmm")] for value in os.listdir() if value.endswith(".dbmd") or value.endswith(".dbmm"))
-    Return = set(value for value in Return if Return.count(value) == 2)
+    Return = list(set(value for value in Return if Return.count(value) == 2))
     return Return   
 
 class open(object):
@@ -49,13 +50,12 @@ class open(object):
 
         for key in toInsert: # Arguments checks
             if key not in self.arrangement.keys(): raise Exception("Dbmaster: Column <" + key + "> is not a valid column in this database")
-            if len(toInsert[key]) > self.arrangement[key]: raise Exception('Dbmaster: Length of <' + key + '> is larger than the allowed size of <' + str(self.arrangement[key]) + '>')
         for key in self.arrangement:
             if key not in toInsert: raise Exception("Dbmaster: Must include all columns() while inserting")
 
         write = ''
         for key in toInsert: # Converts insert dictionary argument into insertable string and inserts into database
-            write += toInsert[key] + ("".join('~' for _ in range(self.arrangement[key]-len(toInsert[key]))))
+            write += toInsert[key] + ("".join(self.spaceFill for _ in range(self.arrangement[key]-len(toInsert[key]))))
 
         deletedList = self.getDeletedList()
         if deletedList: # If there is a deleted entry it can replace
@@ -152,7 +152,7 @@ class open(object):
                     break
                 columnOffset += self.arrangement[i]
             self.fileData.seek(self.entryLength * index + columnOffset) # Seek to the correct position
-            self.fileData.write(params[key] + ("".join('~' for _ in range(self.arrangement[key]-len(params[key])))))
+            self.fileData.write(params[key] + ("".join(self.spaceFill for _ in range(self.arrangement[key]-len(params[key])))))
 
     def getDeletedList(self) -> list:
         self.fileMeta.seek(self.deletedStart)
@@ -179,3 +179,6 @@ class open(object):
 
     def __exit__(self, type, value, traceback): # Support for "with" expression
         self.close()
+
+
+
