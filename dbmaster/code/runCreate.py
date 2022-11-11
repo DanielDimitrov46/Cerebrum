@@ -11,4 +11,4 @@ params = {
     'scor': 4
 }
 
-obj = dbmaster.open('zaTedo', params, '*')
+obj = dbmaster.open('databse', params, '*')
