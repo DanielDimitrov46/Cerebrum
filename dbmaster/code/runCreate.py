@@ -5,10 +5,10 @@ params = {
     'family': 20,
     'num': 5,
     'town': 20,
-    'G': 1,
-    'rUm': 3,
+    'gender': 1,
+    'room': 3,
     'birthDate': 10,
     'scor': 4
 }
 
-obj = dbmaster.open('database', params, '~')
+obj = dbmaster.open('zaTedo', params, '*')

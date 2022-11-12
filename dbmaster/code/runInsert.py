@@ -1,15 +1,15 @@
 import dbmaster
 
 params = {
-    'name': 'Barbaron',
-    'family': 'Geiski',
-    'num': '20105',
-    'town': 'Mezdra',
-    'G': 'M',
-    'rUm': '408',
+    'name': 'Ganyo',
+    'family': 'Petrov',
+    'num': '20420',
+    'town': 'Varna',
+    'gender': 'M',
+    'room': '403',
     'birthDate': '2006-04-24',
-    'scor': '5.10'
+    'scor': '4.30'
 }
 
-obj = dbmaster.open('database')
+obj = dbmaster.open('zaTedo')
 obj.insert(params)
