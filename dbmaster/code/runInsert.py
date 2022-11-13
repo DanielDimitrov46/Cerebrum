@@ -11,5 +11,5 @@ params = {
     'scor': '4.30'
 }
 
-obj = dbmaster.open('zaTedo')
+obj = dbmaster.open('database')
 obj.insert(params)
