@@ -1,5 +1,5 @@
 import io, os, sys, ast
-os.chdir(os.path.dirname(os.path.dirname(__file__))) # Optional. Sets directory to be a folder one up
+#os.chdir(os.path.dirname(os.path.dirname(__file__))) # Optional. Sets directory to be a folder one up
 
 def getDbs() -> list: # Returns a list of all databases in the current directory
     Return = list(value[:value.find(".dbmd" if value.endswith(".dbmd") else ".dbmm")] for value in os.listdir() if value.endswith(".dbmd") or value.endswith(".dbmm"))
