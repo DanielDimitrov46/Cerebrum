@@ -11,4 +11,4 @@ params = {
     'scor': 4
 }
 
-obj = dbmaster.open('databse', params, '*')
+obj = dbmaster.open('tester', params, '~')

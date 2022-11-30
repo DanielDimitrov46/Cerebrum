@@ -1,14 +1,14 @@
 import dbmaster
 
 params = {
-    'name': 'Ganyo',
-    'family': 'Petrov',
-    'num': '20420',
+    'name': 'Qna-Mariq',
+    'family': 'Verihovska',
+    'num': '20302',
     'town': 'Varna',
     'gender': 'M',
     'room': '403',
     'birthDate': '2006-04-24',
-    'scor': '4.30'
+    'score': '4.30'
 }
 
 obj = dbmaster.open('database')
