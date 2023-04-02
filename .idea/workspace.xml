@@ -5,8 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e476807-52ea-4d00-817a-fd63cc50d6b9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/dbmaster/code/gui_application_02.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dbmaster/code/gui_application.py" beforeDir="false" afterPath="$PROJECT_DIR$/dbmaster/code/gui_application.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,12 +33,13 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/danid/Downloads/cat-widget.zip&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/UKTC PROGRAMMING/Data base Hadjichonev/Cerebrum&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -51,7 +52,7 @@
       <recent name="D:\UKTC PROGRAMMING\Data base Hadjichonev\Cerebrum" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.gui_application">
+  <component name="RunManager" selected="Python.gui_application_02">
     <configuration name="gui_application (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Cerebrum" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -96,6 +97,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="gui_application_02" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Cerebrum" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/dbmaster/code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dbmaster/code/gui_application_02.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Cerebrum" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -110,28 +133,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="runGet" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="Cerebrum" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/dbmaster" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/dbmaster/runGet.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -186,11 +187,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.gui_application_02" />
         <item itemvalue="Python.gui_application" />
         <item itemvalue="Python.gui_application (1)" />
         <item itemvalue="Python.runInsert" />
         <item itemvalue="Python.runSearch" />
-        <item itemvalue="Python.runGet" />
       </list>
     </recent_temporary>
   </component>
@@ -215,6 +216,23 @@
       <workItem from="1667335104407" duration="331000" />
       <workItem from="1667379747979" duration="6692000" />
       <workItem from="1668409854163" duration="5317000" />
+      <workItem from="1669795004059" duration="235000" />
+      <workItem from="1670318458565" duration="118000" />
+      <workItem from="1670841311412" duration="640000" />
+      <workItem from="1670923104905" duration="723000" />
+      <workItem from="1670924198776" duration="250000" />
+      <workItem from="1671130948355" duration="687000" />
+      <workItem from="1671658601106" duration="371000" />
+      <workItem from="1671659124519" duration="250000" />
+      <workItem from="1673262090688" duration="170000" />
+      <workItem from="1673341382255" duration="23000" />
+      <workItem from="1673341910848" duration="1126000" />
+      <workItem from="1673638988301" duration="4282000" />
+      <workItem from="1673723501963" duration="2164000" />
+      <workItem from="1673806080141" duration="135000" />
+      <workItem from="1673806413334" duration="2516000" />
+      <workItem from="1673939842513" duration="436000" />
+      <workItem from="1673947275068" duration="4000" />
     </task>
     <servers />
   </component>
@@ -252,16 +270,20 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Cerebrum$gui_application__1_.coverage" NAME="gui_application (1) Coverage Results" MODIFIED="1667408458132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
-    <SUITE FILE_PATH="coverage/Cerebrum$runCreate.coverage" NAME="runCreate Coverage Results" MODIFIED="1667833424469" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
-    <SUITE FILE_PATH="coverage/Cerebrum$runDelete.coverage" NAME="runDelete Coverage Results" MODIFIED="1667985194656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
+    <SUITE FILE_PATH="coverage/Cerebrum$creationFile.coverage" NAME="creationFile Coverage Results" MODIFIED="1669494148606" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ExerciseForAlgorithms" />
+    <SUITE FILE_PATH="coverage/Cerebrum$gui_application_02.coverage" NAME="gui_application_02 Coverage Results" MODIFIED="1673724513071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
     <SUITE FILE_PATH="coverage/Cerebrum$runInsert.coverage" NAME="runInsert Coverage Results" MODIFIED="1667398034494" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
-    <SUITE FILE_PATH="coverage/Cerebrum$table.coverage" NAME="table Coverage Results" MODIFIED="1666789494446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Cerebrum$gui_application.coverage" NAME="gui_application Coverage Results" MODIFIED="1668493131516" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
-    <SUITE FILE_PATH="coverage/Cerebrum$runGet.coverage" NAME="runGet Coverage Results" MODIFIED="1667985168302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
-    <SUITE FILE_PATH="coverage/Cerebrum$runGetDbs.coverage" NAME="runGetDbs Coverage Results" MODIFIED="1667985184286" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
     <SUITE FILE_PATH="coverage/Cerebrum$runGuiTools.coverage" NAME="runGuiTools Coverage Results" MODIFIED="1667293582244" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
+    <SUITE FILE_PATH="coverage/Cerebrum$table.coverage" NAME="table Coverage Results" MODIFIED="1666789494446" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Cerebrum$runGetDbs.coverage" NAME="runGetDbs Coverage Results" MODIFIED="1669314577176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
     <SUITE FILE_PATH="coverage/Cerebrum$runLoad.coverage" NAME="runLoad Coverage Results" MODIFIED="1667295936634" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
     <SUITE FILE_PATH="coverage/Cerebrum$runSearch.coverage" NAME="runSearch Coverage Results" MODIFIED="1667383268254" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
+    <SUITE FILE_PATH="coverage/Cerebrum$binarySearchAlgorithm.coverage" NAME="binarySearchAlgorithm Coverage Results" MODIFIED="1669556683444" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ExerciseForAlgorithms" />
+    <SUITE FILE_PATH="coverage/Cerebrum$runGet.coverage" NAME="runGet Coverage Results" MODIFIED="1667985168302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
+    <SUITE FILE_PATH="coverage/Cerebrum$gui_application.coverage" NAME="gui_application Coverage Results" MODIFIED="1673262138697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
+    <SUITE FILE_PATH="coverage/Cerebrum$runDelete.coverage" NAME="runDelete Coverage Results" MODIFIED="1667985194656" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
+    <SUITE FILE_PATH="coverage/Cerebrum$gui_application__1_.coverage" NAME="gui_application (1) Coverage Results" MODIFIED="1667408458132" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster" />
+    <SUITE FILE_PATH="coverage/Cerebrum$fibonachiSearchAlgorithm.coverage" NAME="fibonachiSearchAlgorithm Coverage Results" MODIFIED="1669556666473" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ExerciseForAlgorithms" />
+    <SUITE FILE_PATH="coverage/Cerebrum$runCreate.coverage" NAME="runCreate Coverage Results" MODIFIED="1668607149371" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dbmaster/code" />
   </component>
 </project>
